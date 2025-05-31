@@ -1,0 +1,27 @@
+# Ignore virtual environment folders
+env/
+venv/
+deployment_ML/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# VSCode settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+
+ 
+
+# Ignore notebook outputs (if needed)
+*.nbconvert.ipynb
