@@ -21,7 +21,5 @@ Thumbs.db
 *.log
 *.tmp
 
- 
-
 # Ignore notebook outputs (if needed)
 *.nbconvert.ipynb
