@@ -4,8 +4,6 @@ from pydantic import BaseModel
 from typing import List
 import joblib
 import uvicorn
-from typing import Union
-import pandas as pd
 from app.model import prediction
 logging.basicConfig(
     level=logging.INFO,
@@ -35,7 +33,7 @@ except Exception as e:
 app=FastAPI()
 
 class LandmarkInput(BaseModel):
-    landmarks: list[float]
+    landmarks: List[float]
 
 
 @app.get("/")
@@ -66,10 +64,10 @@ async def predict(request:LandmarkInput):
         raise HTTPException(status_code=503, detail="Model not loaded")
 
     try:
-      logger.info(f"Prediction request received: features={request.features}")
-      pred=prediction(preprocess,model,[request.features])
+      logger.info(f"Prediction request received: features={request.landmarks}")
+      pred=prediction(preprocess,model,[request.landmarks])
       logger.info(f"Prediction Result: {pred}")
-      return {"prediction": pred.tolist()}
+      return {"prediction": pred}
 
     except Exception as e:
         logger.error(f"Prediction error: {e}")
@@ -77,5 +75,5 @@ async def predict(request:LandmarkInput):
 
 
 
-if __name__ == "__main__":
-    uvicorn.run(app,port=8000)         
+if __name__ == "__main__":   
+    uvicorn.run(app, port=8000)

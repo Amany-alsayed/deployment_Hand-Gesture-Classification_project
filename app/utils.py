@@ -3,6 +3,7 @@ import pandas as pd
 
 def recenter_landmarks(landmarks):
   landmarks=landmarks.copy()
+  landmarks = landmarks.astype(float)
   wrist_x, wrist_y = landmarks.iloc[:,0], landmarks.iloc[:,1]
   # Subtract wrist coordinates from all landmarks
   for i in range(21):  # 21 landmarks
@@ -13,6 +14,8 @@ def recenter_landmarks(landmarks):
 
 
 def normalize_landmarks(landmarks):
+    landmarks=landmarks.copy()
+    landmarks = landmarks.astype(float)
     mid_finger_x, mid_finger_y = landmarks.iloc[:,9 * 3], landmarks.iloc[:,9 * 3 + 1]
     norm=np.sqrt(mid_finger_x**2,mid_finger_y**2)
     # Prevent division by zero
