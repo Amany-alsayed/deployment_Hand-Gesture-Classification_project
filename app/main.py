@@ -11,7 +11,7 @@ from prometheus_client import Summary
 import time
 from prometheus_client import Gauge
 import numpy as np
-
+from fastapi.middleware.cors import CORSMiddleware
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "..", "models")
@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler(r"app\app.log"),
+        logging.FileHandler("app/app.log"),
         logging.StreamHandler()
     ]
 )
@@ -47,6 +47,15 @@ class LandmarkInput(BaseModel):
     landmarks: List[float]
 
 Instrumentator().instrument(app).expose(app)
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],  # Frontend origin URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc)
+    allow_headers=["*"],  # Allow all headers
+)
+
 @app.get("/")
 async def home():
     logger.info("Home endpoint accessed.")
@@ -71,7 +80,7 @@ landmark_std = Gauge("input_landmark_std", "Std deviation of landmark input valu
 
 @app.post("/predict")
 @prediction_latency.time()
-async def predict(request:LandmarkInput):
+def predict(request:LandmarkInput):
     if not preprocess:
         logger.error("Prediction request received but preprocessing file not loaded.")
         raise HTTPException(status_code=503, detail="preprocessing file not loaded")

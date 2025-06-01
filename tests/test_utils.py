@@ -10,8 +10,6 @@ def test_prediction():
     assert result is not None
     assert isinstance(result, str)
     expected_gestures = [
-        "call", "dislike", "fist", "four", "like", "mute", "ok", 
-        "one", "palm", "peace", "peace inv.", "rock", "stop", 
-        "stop inv.", "three", "three 2", "two up", "two up inv.", "Unknown"
+        "up", "down", "left", "right", "null"
     ]
     assert result in expected_gestures
