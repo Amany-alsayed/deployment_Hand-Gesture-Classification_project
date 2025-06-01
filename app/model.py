@@ -14,4 +14,18 @@ def prediction(preprocess,model,data):
     landmarks_scaled = preprocess.transform(landmarks_df)
     prediction = model.predict(landmarks_scaled)[0]
     gesture_name = gesture_labels.get(int(prediction), "Unknown")
+    if gesture_name=='like':
+        gesture_name='up'
+
+    elif gesture_name=='dislike':
+        gesture_name='down'
+
+    elif gesture_name=='palm':
+        gesture_name='left'
+
+    elif gesture_name=='ok':
+        gesture_name='right'   
+
+    else:
+        gesture_name='null'           
     return gesture_name
